@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PublicHeader from '../../components/header'
+import { saveFormData } from '@/store/home/action'
+import PublicHeader from '@/components/header'
 
 import './index.less'
 
@@ -21,10 +22,15 @@ class Home extends React.Component {
     this.props.saveFormData(type, value)
   }
 
+  toProduct() {
+    // console.log(this.props)
+    this.props.history.push('/product')
+  }
+
   render() {
     const { formData } = this.props
     return (
-      <main className="home-container">
+      <main className="home-container common-con-top">
         <PublicHeader title="首页" record />
 
         <p className="common-title">请录入您的信息</p>
@@ -57,6 +63,7 @@ class Home extends React.Component {
               onChange={this.handleInput.bind(this, 'phoneNo')}
             />
           </div>
+          <button onClick={this.toProduct.bind(this)}>product</button>
         </form>
       </main>
     )
@@ -64,18 +71,23 @@ class Home extends React.Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
     formData: state.formData,
     proData: state.proData
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveFormData: function(datatype, value) {
-      dispatch({ type: 'SAVEFORMDATA', datatype, value })
-    }
-  }
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     saveFormData: function(datatype, value) {
+//       dispatch({ type: 'SAVEFORMDATA', datatype, value })
+//     }
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+// export default connect(mapStateToProps, mapDispatchToProps)(Home)
+
+export default connect(mapStateToProps, {
+  saveFormData
+})(Home)
